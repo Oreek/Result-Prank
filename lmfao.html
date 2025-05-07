@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBSE Results 2024</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f5;
+        }
+        .header {
+            background-color: #00c1d5;
+            color: white;
+            padding: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        .logo {
+            max-width: 440px;
+            margin-left: 15px;
+            display: flex;
+            align-items: center;
+        }
+        .logo img {
+            height: 60px;
+            margin-right: 10px;
+        }
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+        }
+        .logo-text-hindi {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        .logo-text-english {
+            font-size: 16px;
+            color: #062d7c;
+        }
+        .header-right {
+            flex-grow: 1;
+            text-align: right;
+            padding-right: 20px;
+        }
+        .header-right h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: normal;
+        }
+        .header-right h2 {
+            margin: 5px 0 0;
+            font-size: 18px;
+            font-weight: normal;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        .title {
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            display: flex;
+        }
+        .form-label {
+            width: 180px;
+            padding-top: 8px;
+            color: #333;
+        }
+        .form-input {
+            flex-grow: 1;
+        }
+        .form-input input {
+            width: 80%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .captcha-area {
+            display: flex;
+            align-items: center;
+        }
+        .captcha-image {
+            background-color: #f0f0f0;
+            padding: 8px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            color: #000;
+            font-weight: bold;
+            letter-spacing: 2px;
+            font-family: 'Courier New', monospace;
+        }
+        .refresh-btn {
+            background-color: transparent;
+            border: none;
+            cursor: pointer;
+        }
+        .refresh-icon {
+            width: 25px;
+            height: 25px;
+            color: green;
+        }
+        .blue-text {
+            color: #007bff;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .btn-submit {
+            background-color: #007bff;
+        }
+        .btn-reset {
+            background-color: #dc3545;
+        }
+        .disclaimer {
+            font-size: 14px;
+            color: #555;
+            margin-top: 30px;
+            padding: 15px;
+            text-align: center;
+            border-top: 1px solid #ddd;
+        }
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+        
+        /* Results page styling */
+        .results-container {
+            display: none;
+        }
+        .student-info {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+        .student-info p {
+            margin: 10px 0;
+        }
+        .student-info strong {
+            display: inline-block;
+            width: 150px;
+            font-weight: bold;
+        }
+        .result-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        .result-table th, .result-table td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        .result-table th {
+            background-color: #f5f5f5;
+        }
+        .result-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        .total-row {
+            font-weight: bold;
+        }
+        .result-status {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+        .pass {
+            color: #28a745;
+            background-color: #d4edda;
+        }
+        .fail {
+            color: #dc3545;
+            background-color: #f8d7da;
+        }
+        .hidden-meme {
+            text-align: center;
+            font-style: italic;
+            color: #6c757d;
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="logo">
+            <img src="https://olsonwilmer.github.io/cbse.results/logo.png" alt="CBSE Logo">
+            <div class="logo-text">
+                <div class="logo-text-hindi">केंद्रीय माध्यमिक शिक्षा बोर्ड</div>
+                <div class="logo-text-english">Central Board of Secondary Education</div>
+            </div>
+        </div>
+        <div class="header-right">
+            <h1>https://cbseresults.nic.in</h1>
+            <h2>Examination Results 2024</h2>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Login Form -->
+        <div id="loginForm">
+            <div class="title">
+                Senior School (Class XII) Certificate Examination (Supplementary) Results 2024
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Enter Your Roll Number :</div>
+                <div class="form-input">
+                    <input type="text" id="roll" placeholder="Roll Number">
+                    <div class="error-message" id="rollError">Please enter valid roll number</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Enter School No. :</div>
+                <div class="form-input">
+                    <input type="text" id="school" placeholder="School Number">
+                    <div class="error-message" id="schoolError">Please enter valid school number</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Enter Admit Card ID : <span class="blue-text">(as given on your admit card)</span></div>
+                <div class="form-input">
+                    <input type="text" id="admitcard" placeholder="Admit Card Id">
+                    <div class="error-message" id="admitcardError">Please enter valid admit card ID</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Enter Security Pin <span class="blue-text">(case sensitive)</span></div>
+                <div class="form-input">
+                    <input type="text" id="captcha" placeholder="Security Pin">
+                    <div class="error-message" id="captchaError">Please enter the correct security pin</div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="form-label">Security Pin :</div>
+                <div class="captcha-area">
+                    <div class="captcha-image" id="captchaText">UFCFT3</div>
+                    <button class="refresh-btn" id="refreshCaptcha">
+                        <svg class="refresh-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 4v5h-5"></path>
+                            <path d="M4 20v-5h5"></path>
+                            <path d="M20.49 15A9 9 0 0 1 7.99 20H7.5c-1.5 0-2.5-1-2.5-2.5V15"></path>
+                            <path d="M3.51 9A9 9 0 0 1 16.01 4h.5c1.5 0 2.5 1 2.5 2.5V9"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn btn-submit" id="submitBtn">Submit</button>
+                <button class="btn btn-reset" id="resetBtn">Reset</button>
+            </div>
+
+            <div class="disclaimer">
+                <strong>Disclaimer :</strong> Neither NIC nor CBSE is responsible for any inadvertent error that may have crept in the results being published on NET. The results published on net are for immediate information to the examinees. These cannot be treated as original mark sheets. Original mark sheets have been issued by the Board separately.
+            </div>
+        </div>
+
+        <!-- Results Container -->
+        <div class="results-container" id="resultsContainer">
+            <div class="title">
+                CBSE Class XII Examination Results 2024
+            </div>
+
+            <div class="student-info">
+                <p><strong>Name:</strong> <span id="studentName">SHARMA JI KA BETA</span></p>
+                <p><strong>Roll No:</strong> <span id="studentRoll">1234567</span></p>
+                <p><strong>Mother's Name:</strong> SHARMA JI KI BIWI</p>
+                <p><strong>Father's Name:</strong> SHARMA JI</p>
+                <p><strong>School:</strong> GAWAR PUBLIC SCHOOL (12345)</p>
+                <p><strong>DOB:</strong> <span id="studentDOB">15/04/2007</span></p>
+            </div>
+
+            <table class="result-table">
+                <thead>
+                    <tr>
+                        <th>SUB CODE</th>
+                        <th>SUBJECT NAME</th>
+                        <th>THEORY</th>
+                        <th>PRACTICAL</th>
+                        <th>MARKS OBTAINED</th>
+                        <th>GRADE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>184</td>
+                        <td>ENGLISH LANGUAGE AND LITERATURE</td>
+                        <td>65/80</td>
+                        <td>18/20</td>
+                        <td>83/100</td>
+                        <td>A1</td>
+                    </tr>
+                    <tr>
+                        <td>085</td>
+                        <td>SANSKRIT (COMMUNICATIVE)</td>
+                        <td>75/80</td>
+                        <td>20/20</td>
+                        <td>95/100</td>
+                        <td>A1</td>
+                    </tr>
+                    <tr>
+                        <td>041</td>
+                        <td>MATHEMATICS STANDARD</td>
+                        <td id="mathTheory">35/80</td>
+                        <td>16/20</td>
+                        <td id="mathTotal">51/100</td>
+                        <td id="mathGrade">C1</td>
+                    </tr>
+                    <tr>
+                        <td>086</td>
+                        <td>SCIENCE</td>
+                        <td>48/80</td>
+                        <td>19/20</td>
+                        <td>67/100</td>
+                        <td>B1</td>
+                    </tr>
+                    <tr>
+                        <td>087</td>
+                        <td>SOCIAL SCIENCE</td>
+                        <td>52/80</td>
+                        <td>18/20</td>
+                        <td>70/100</td>
+                        <td>B1</td>
+                    </tr>
+                    <tr>
+                        <td>304</td>
+                        <td>INFORMATION TECHNOLOGY</td>
+                        <td>68/80</td>
+                        <td>20/20</td>
+                        <td>88/100</td>
+                        <td>A1</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td colspan="4">TOTAL</td>
+                        <td id="totalMarks">454/600</td>
+                        <td id="overallGrade">KHUD NIKAL LE AALSI</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="result-status" id="resultStatus">RESULT: PASS</div>
+            
+            <div class="hidden-meme" id="memeText"></div>
+            
+            <div class="btn-row">
+                <button class="btn btn-submit" id="backBtn">Back</button>
+            </div>
+            
+            <div class="disclaimer">
+                <strong>Disclaimer :</strong> Neither NIC nor CBSE is responsible for any inadvertent error that may have crept in the results being published on NET. The results published on net are for immediate information to the examinees. These cannot be treated as original mark sheets. Original mark sheets have been issued by the Board separately.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const submitBtn = document.getElementById('submitBtn');
+            const resetBtn = document.getElementById('resetBtn');
+            const backBtn = document.getElementById('backBtn');
+            const refreshCaptchaBtn = document.getElementById('refreshCaptcha');
+            const captchaText = document.getElementById('captchaText');
+            
+            const rollInput = document.getElementById('roll');
+            const schoolInput = document.getElementById('school');
+            const admitcardInput = document.getElementById('admitcard');
+            const captchaInput = document.getElementById('captcha');
+            
+            const rollError = document.getElementById('rollError');
+            const schoolError = document.getElementById('schoolError');
+            const admitcardError = document.getElementById('admitcardError');
+            const captchaError = document.getElementById('captchaError');
+            
+            const studentName = document.getElementById('studentName');
+            const studentRoll = document.getElementById('studentRoll');
+            const studentDOB = document.getElementById('studentDOB');
+            const mathTheory = document.getElementById('mathTheory');
+            const mathTotal = document.getElementById('mathTotal');
+            const mathGrade = document.getElementById('mathGrade');
+            const totalMarks = document.getElementById('totalMarks');
+            const overallGrade = document.getElementById('overallGrade');
+            const resultStatus = document.getElementById('resultStatus');
+            const memeText = document.getElementById('memeText');
+            
+            // Generate a random captcha
+            function generateCaptcha() {
+                const characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ123456789';
+                let result = '';
+                for (let i = 0; i < 6; i++) {
+                    result += characters.charAt(Math.floor(Math.random() * characters.length));
+                }
+                captchaText.textContent = result;
+            }
+            
+            generateCaptcha();
+            
+            // Refresh captcha
+            refreshCaptchaBtn.addEventListener('click', function() {
+                generateCaptcha();
+            });
+            
+            // Validate form
+            function validateForm() {
+                let isValid = true;
+                
+                // Reset error messages
+                rollError.style.display = 'none';
+                schoolError.style.display = 'none';
+                admitcardError.style.display = 'none';
+                captchaError.style.display = 'none';
+                
+                // Validate roll number
+                if (!rollInput.value.trim()) {
+                    rollError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate school number
+                if (!schoolInput.value.trim()) {
+                    schoolError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate admit card ID
+                if (!admitcardInput.value.trim()) {
+                    admitcardError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                // Validate captcha
+                if (captchaInput.value !== captchaText.textContent) {
+                    captchaError.style.display = 'block';
+                    isValid = false;
+                }
+                
+                return isValid;
+            }
+            
+            // Reset form
+            function resetForm() {
+                rollInput.value = '';
+                schoolInput.value = '';
+                admitcardInput.value = '';
+                captchaInput.value = '';
+                generateCaptcha();
+                
+                // Hide error messages
+                rollError.style.display = 'none';
+                schoolError.style.display = 'none';
+                admitcardError.style.display = 'none';
+                captchaError.style.display = 'none';
+            }
+            
+            // Generate random student name
+            function generateRandomName() {
+                const firstNames = ['SHARMA JI'];
+                const lastNames = ['KA BETA', 'KA BETI'];
+                
+                return firstNames[Math.floor(Math.random() * firstNames.length)] + ' ' + 
+                       lastNames[Math.floor(Math.random() * lastNames.length)];
+            }
+            
+            // Handle form submission
+            submitBtn.addEventListener('click', function() {
+                if (validateForm()) {
+                    // Update student info with entered values
+                    const randomName = generateRandomName();
+                    studentName.textContent = randomName;
+                    studentRoll.textContent = rollInput.value;
+                    
+                    // Random date of birth
+                    const year = Math.floor(Math.random() * 3) + 2006; // 2006-2008
+                    const month = Math.floor(Math.random() * 12) + 1;
+                    const day = Math.floor(Math.random() * 28) + 1;
+                    studentDOB.textContent = `${day.toString().padStart(2, '0')}/${month.toString().padStart(2, '0')}/${year}`;
+                    
+                    // Randomize math marks
+                    const randomMathTheory = Math.floor(Math.random() * 46) + 25; // Between 25-70
+                    const practicalMarks = 16;
+                    const totalMathMarks = randomMathTheory + practicalMarks;
+                    
+                    mathTheory.textContent = `${randomMathTheory}/80`;
+                    mathTotal.textContent = `${totalMathMarks}/100`;
+                    
+                    // Set grade based on marks
+                    let mathGradeText;
+                    if (totalMathMarks >= 91) mathGradeText = 'A1';
+                    else if (totalMathMarks >= 81) mathGradeText = 'A2';
+                    else if (totalMathMarks >= 71) mathGradeText = 'B1';
+                    else if (totalMathMarks >= 61) mathGradeText = 'B2';
+                    else if (totalMathMarks >= 51) mathGradeText = 'C1';
+                    else if (totalMathMarks >= 41) mathGradeText = 'C2';
+                    else if (totalMathMarks >= 33) mathGradeText = 'D';
+                    else mathGradeText = 'E';
+                    
+                    mathGrade.textContent = mathGradeText;
+                    
+                    // Calculate new total marks
+                    const newTotal = 359 - 51 + totalMathMarks;
+                    totalMarks.textContent = `${newTotal}/500`;
+                    
+                    // Set result status
+                    if (totalMathMarks < 33) {
+                        resultStatus.textContent = "RESULT: COMPARTMENT";
+                        resultStatus.className = "result-status fail";
+                        
+                        // Funny compartment message
+                        const failMessages = [
+                            "Don't worry! Even Einstein failed in math... wait, that's not true actually.",
+                            "Compartment? More like a reserved seat for the supplementary exam special train!",
+                            "Mathematical skills: Loading... Error 404: Not found",
+                            "When your parents ask about your result: *chuckles* I'm in danger!"
+                        ];
+                        memeText.textContent = failMessages[Math.floor(Math.random() * failMessages.length)];
+                        memeText.style.display = "block";
+                    } else {
+                        resultStatus.textContent = "RESULT: PASS";
+                        resultStatus.className = "result-status pass";
+                        
+                        // Random funny messages
+                        const passMessages = [
+                            "Congratulations! Your parents' expectations are now even higher!",
+                            "You passed! Time to explain to relatives why you're not joining IIT.",
+                            "Success! Now you can add this to your Instagram bio.",
+                            "You made it! Your relatives will now compare their kids to you.",
+                            "When you get 95% but your mom asks about the missing 5%"
+                        ];
+                        memeText.textContent = passMessages[Math.floor(Math.random() * passMessages.length)];
+                        memeText.style.display = "block";
+                    }
+                    
+                    // Show results page
+                    loginForm.style.display = 'none';
+                    resultsContainer.style.display = 'block';
+                }
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                resetForm();
+            });
+            
+            // Back button
+            backBtn.addEventListener('click', function() {
+                loginForm.style.display = 'block';
+                resultsContainer.style.display = 'none';
+                resetForm();
+            });
+        });
+    </script>
+</body>
+</html>
